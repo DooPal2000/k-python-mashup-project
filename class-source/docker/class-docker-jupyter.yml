@@ -1,12 +1,26 @@
 version: "3"
+
 services:
   python_class:
-    image: jupyter/base-notebook:python-3.9.12
     build:
       context: .
       dockerfile: ./class-jupyter.dockerfile
+    image: my-jupyter:1.0
     ports:
       - "18000:8888"
     volumes:
-      - ../source:/home/jovyan/work
+      - C:\docker-data\kmu-python-mashup-jupyter:/home/jovyan/work
     restart: unless-stopped
+
+
+# services:
+#   python_class:
+#     image: jupyter/base-notebook:python-3.9.12
+#     build:
+#       context: .
+#       dockerfile: ./class-jupyter.dockerfile
+#     ports:
+#       - "18000:8888"
+#     volumes:
+#       - ../source:/home/jovyan/work
+#     restart: unless-stopped
