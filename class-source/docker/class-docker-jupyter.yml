@@ -9,7 +9,8 @@ services:
     ports:
       - "18000:8888"
     volumes:
-      - C:\docker-data\kmu-python-mashup-jupyter:/home/jovyan/work
+      # - C:\docker-data\kmu-python-mashup-jupyter:/home/jovyan/work
+        - ../source:/home/jovyan/work  # ✅ 프로젝트 내 source 디렉토리를 마운트
     restart: unless-stopped
 
 
