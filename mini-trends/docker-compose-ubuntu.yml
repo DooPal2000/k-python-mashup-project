@@ -1,0 +1,10 @@
+services:
+  app:
+    image: kyoungyeob/tiny-inventory-management-app:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+      - ADMIN_NUMBERS=${ADMIN_NUMBERS}
+      - SESSION_SECRET_KEY=${SESSION_SECRET_KEY}

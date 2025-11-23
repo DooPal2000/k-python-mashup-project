@@ -1,0 +1,51 @@
+:root {
+  /* 밝고 따뜻한 소매업 색상 팔레트 */
+  --primary-coral: #FF6B6B;        /* 밝은 코랄 핑크 */
+  --secondary-peach: #FFB347;      /* 부드러운 피치 */
+  --accent-gold: #FFD93D;          /* 밝은 골드 */
+  --neutral-lavender: #E6E6FA;     /* 연한 라벤더 */
+  --background: #FFF8F3;           /* 따뜻한 크림 배경 */
+  --text-main: #4A4A4A;            /* 부드러운 다크 그레이 */
+  --text-light: #8B8B8B;           /* 연한 그레이 */
+  --white: #FFFFFF;
+}
+
+.navbar {
+  background: linear-gradient(90deg, var(--primary-coral), var(--secondary-peach));
+}
+
+.btn-primary, .btn-lg {
+  background: var(--primary-coral);
+  background-image: none !important;  /* 기본 상태도 추가 */
+  color: var(--white) !important;
+  border: none;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.15);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--secondary-peach) !important;
+  border-color: var(--secondary-peach) !important;
+  color: var(--white) !important;
+}
+
+
+body {
+  background: var(--background);
+  color: var(--text-main);
+}
+
+.img-thumbnail {
+  border: 2px solid var(--primary-coral);
+  background: var(--white);
+}
+
+.lead, .fs-3, .fs-5 {
+  color: var(--primary-coral);
+}
+
+/* 골드 포인트가 필요한 곳 */
+.brand-highlight, .btn-warning {
+  color: var(--accent-gold) !important;
+}
