@@ -1,22 +1,22 @@
 <nav class="navbar sticky-top navbar-expand-lg modern-navbar">
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" href="/">
-      <span class="me-2">🥬</span>
-      <span>트렌디스</span>
+      <img src="/img/trendy-icon.gif" alt="트렌디스 로고" height="32" class="me-2">
+      <span class="brand-main">Trendis</span>
     </a>
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
-        <% if (typeof currentUser === 'undefined' || !currentUser) { %>          
+        <% if (typeof currentUser==='undefined' || !currentUser) { %>
           <a class="nav-link" href="/login">로그인</a>
           <a class="nav-link" href="/register">회원가입</a>
-        <% } else { %>
-          <a class="nav-link" href="/logout">로그아웃</a>
-        <% } %>
+          <% } else { %>
+            <a class="nav-link" href="/logout">로그아웃</a>
+            <% } %>
       </div>
     </div>
   </div>
