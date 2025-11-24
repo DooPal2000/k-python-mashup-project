@@ -23,6 +23,7 @@ const ExpressError = require('./utils/ExpressError');
 const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');
 const productRoutes = require('./routes/products.js');
+const trendRoutes = require('./routes/trends.js');
 
 
 // 데이터베이스 연결
@@ -118,9 +119,8 @@ app.use(morganMiddleware);
 
 app.use((req, res, next) => {
   // logger.debug(`요청: ${req.method} ${req.url}`);
-  console.log(`req.user in middleware... `, req.user);
+  logger.info(`req.user in middleware :: ${req.user}`);
 
-  // logger.info('req.user in middleware:', req.user);
   res.locals.currentUser = req.user || null; // req.user가 없으면 null로 설정;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
@@ -130,6 +130,7 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/products', productRoutes);
+app.use('/trends', trendRoutes);
 
 app.get('/', (req, res) => {
   res.render('home');
@@ -160,5 +161,5 @@ app.use((err, req, res, next) => {
 
 
 app.listen(3000, () => {
-  console.log(`App Starting... PORT 3000`);
+  logger.info(`App Starting... PORT  :: 3000`);
 });

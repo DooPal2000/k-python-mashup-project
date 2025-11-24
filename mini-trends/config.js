@@ -1,13 +1,5 @@
 const fs = require('fs');
 
-// function loadProductionSecrets() {
-//   return {
-//     MONGODB_URI: fs.readFileSync('/run/secrets/mongodb_uri', 'utf8').trim(),
-//     ADMIN_NUMBERS: fs.readFileSync('/run/secrets/admin_numbers', 'utf8').trim(),
-//     SESSION_SECRET_KEY: fs.readFileSync('/run/secrets/session_secret_key', 'utf8').trim(),
-//   };
-// }
-
 function loadEnvironment() {
   if (process.env.NODE_ENV === 'production') {
     return process.env;
@@ -35,7 +27,12 @@ const config = {
   },
   session: {
     secretKey: env.SESSION_SECRET_KEY
+  },
+  naver: {
+    clientId: env.NAVER_CLIENT_ID,
+    clientSecret: env.NAVER_CLIENT_SECRET
   }
+
 };
 
 module.exports = config;
