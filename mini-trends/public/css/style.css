@@ -1,18 +1,39 @@
 :root {
-  /* 밝고 따뜻한 소매업 색상 팔레트 */
-  --primary-coral: #FF6B6B;        /* 밝은 코랄 핑크 */
-  --secondary-peach: #FFB347;      /* 부드러운 피치 */
-  --accent-gold: #FFD93D;          /* 밝은 골드 */
-  --neutral-lavender: #E6E6FA;     /* 연한 라벤더 */
-  --background: #FFF8F3;           /* 따뜻한 크림 배경 */
-  --text-main: #4A4A4A;            /* 부드러운 다크 그레이 */
-  --text-light: #8B8B8B;           /* 연한 그레이 */
+  /* ⭐ 트렌디 & 톡톡튀는 Pop 컬러 팔레트 */
+  --primary-coral: #FF3E9D;        /* 네온 코랄/마젠타 */
+  --secondary-peach: #00E5B0;      /* 네온 민트 */
+  --accent-gold: #F9F871;          /* 라임 옐로우 하이라이트 */
+  --neutral-lavender: #E9E2FF;     /* 파스텔 라벤더 */
+  --background: #FFFDF7;           /* 보다 밝은 미니멀 크림 */
+  --text-main: #3A3A3A;            /* 차콜 그레이 */
+  --text-light: #8E8E8E;           /* 라이트 그레이 */
   --white: #FFFFFF;
 }
 
 .navbar {
   background: linear-gradient(90deg, var(--primary-coral), var(--secondary-peach));
 }
+
+.navbar .nav-link {
+  color: var(--white);
+  transition: 0.2s;
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+.navbar .nav-link:hover {
+  background-color: var(--secondary-peach); /* 네온 민트 */
+  color: var(--white) !important;
+}
+
+.navbar-brand span:last-child {
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.5px;
+  color: var(--accent-gold);
+  text-shadow: 0 0 8px rgba(249, 248, 113, 0.4);
+}
+
 
 .btn-primary, .btn-lg {
   background: var(--primary-coral);
