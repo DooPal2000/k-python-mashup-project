@@ -22,6 +22,16 @@ const userSchema = new Schema({
         default: Date.now
     },
 });
-userSchema.plugin(passportLocalMongoose, {usernameField: 'phonenum' });
+// userSchema.plugin(passportLocalMongoose, {usernameField: 'phonenum' });
+
+// passport-local-mongoose 플러그인 옵션 설정
+userSchema.plugin(passportLocalMongoose, {
+    usernameField: 'phonenum',
+    // Mongoose 7+ 에서는 Promise 기반으로 작동
+    errorMessages: {
+        UserExistsError: '이미 등록된 전화번호입니다.'
+    }
+});
+
 module.exports = mongoose.model("User", userSchema);
 
