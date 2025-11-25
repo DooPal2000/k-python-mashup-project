@@ -12,7 +12,7 @@ const timestampFormat = () => {
 };
 
 const logger = winston.createLogger({
-  level: 'info',
+  level: 'debug',
   format: winston.format.combine(
     winston.format.timestamp({ format: timestampFormat }),
     winston.format.printf(({ level, message, timestamp }) => {
@@ -31,7 +31,7 @@ const logger = winston.createLogger({
     }),
     new winston.transports.File({
       filename: path.join('logs', 'custom.log'), // combined.log와 겹치지 않게 별도 파일 지정
-      level: 'warn', // 필요에 따라 조절 가능
+      level: 'info', // 필요에 따라 조절 가능
       format: winston.format.combine(
         winston.format.timestamp({ format: timestampFormat }),
         winston.format.printf(({ level, message, timestamp }) => {

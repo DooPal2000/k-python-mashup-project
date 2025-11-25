@@ -6,43 +6,138 @@ const logger = require('../utils/logger');
 
 const axios = require('axios');
 const config = require('../config'); // config 불러오기
+const client_id = config.naver.clientId;
+const client_secret = config.naver.clientSecret;
 
-
-module.exports.index = async (req, res) => {
+// 블로그 검색 페이지
+module.exports.blogIndex = async (req, res) => {
     const trends = await Trend.find({ createdBy: req.user._id });
-    res.render('trends/index', { trends });
+    res.render('trends/blog-index', { trends });
 };
 
-module.exports.getTrend = async (req, res) => {
-    const requestBody = {
-        startDate: "2025-01-01",
-        endDate: "2025-11-24",
-        timeUnit: "month",
-        keywordGroups: [
-            {
-                groupName: "구로디지털관리", // 그룹 이름은 임의 지정 가능
-                keywords: ["구로디지털단지", "Guro Digital Complex"]
-            }
-        ],
-        device: "pc",      // "pc" 또는 "mo" (모바일)
-        ages: ["1", "2", "3", "4", "5", "6", "7"], // 연령대, 1~7
-        gender: "f"        // "f", "m", "all"
-    };
+// 블로그 검색 API
+module.exports.blogSearch = async (req, res) => {
+    const { query, display = 20, sort = 'sim' } = req.query;
 
-    const response = await axios.post(
-        "https://openapi.naver.com/v1/datalab/search",
-        requestBody,
-        {
+    if (!query) {
+        return res.status(400).json({
+            error: true,
+            message: '검색어를 입력해주세요.'
+        });
+    }
+
+    const api_url = `https://openapi.naver.com/v1/search/blog?query=${encodeURI(query)}&display=${display}&sort=${sort}`;
+
+    try {
+        const response = await axios.get(api_url, {
             headers: {
-                "X-Naver-Client-Id": process.env.NAVER_CLIENT_ID,
-                "X-Naver-Client-Secret": process.env.NAVER_CLIENT_SECRET,
+                "X-Naver-Client-Id": client_id,
+                "X-Naver-Client-Secret": client_secret,
+            }
+        });
+
+        // // 성공 로그
+        // logger.info(
+        //     `✅ 네이버 API 검색 성공 | 검색어: "${query}" | 결과: ${response.data.items?.length || 0
+        //     }/${response.data.total || 0}건 | 상세결과: ${JSON.stringify(response.data, null, 2)}`
+        // );
+        // 성공 로그
+        logger.debug(
+            `✅ 네이버 API 검색 성공 | 검색어: "${query}" | 결과: ${response.data.items?.length || 0
+            }/${response.data.total || 0}건 | 상세결과: ${JSON.stringify(response.data, null, 2)}`
+        );
+
+        res.json(response.data);
+    } catch (error) {
+        logger.error(`❌ 네이버 API 오류 | 검색어: "${query}" | 상태: ${statusCode} | 내용: ${errorMessage}`);
+        throw new ExpressError('검색 중 오류 발생', error.response?.status || 500);
+
+        // res.status(error.response?.status || 500).json({
+        //     error: true,
+        //     message: '검색 중 오류가 발생했습니다.'
+        // });
+    }
+};
+
+
+// 지역 검색 페이지
+module.exports.localIndex = (req, res) => {
+    res.render('trends/local-index');
+};
+
+// 지역 검색 API
+module.exports.localSearch = async (req, res) => {
+    const { query, display = 5, sort = 'random' } = req.query;
+
+    if (!query) {
+        return res.status(400).json({
+            error: true,
+            message: '검색어를 입력해주세요.'
+        });
+    }
+
+    const api_url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURI(query)}&display=${display}&sort=${sort}`;
+
+    logger.info(`지역 검색 시작 - 검색어: "${query}"`);
+
+    try {
+        const response = await axios.get(api_url, {
+            headers: {
+                "X-Naver-Client-Id": client_id,
+                "X-Naver-Client-Secret": client_secret,
+            }
+        });
+
+        logger.info(`✅ 지역 검색 성공 | 검색어: "${query}" | 결과: ${response.data.items?.length || 0}건`);
+        res.json(response.data);
+    } catch (error) {
+        logger.error(`❌ 지역 API 오류 | 검색어: "${query}" | ${error.message}`);
+        res.status(error.response?.status || 500).json({
+            error: true,
+            message: '검색 중 오류가 발생했습니다.'
+        });
+    }
+};
+
+// 데이터랩 페이지
+module.exports.datalabIndex = (req, res) => {
+    res.render('trends/datalab-index');
+};
+
+// 데이터랩 검색 API
+module.exports.datalabSearch = async (req, res) => {
+    const requestBody = req.body;
+    logger.info(` 데이터랩 분석 | req.body: ${JSON.stringify(requestBody, null, 2)}`);
+
+    if (!requestBody.keywordGroups || requestBody.keywordGroups.length === 0) {
+        return res.status(400).json({
+            error: true,
+            message: '키워드 그룹을 입력해주세요.'
+        });
+    }
+
+    const api_url = 'https://openapi.naver.com/v1/datalab/search';
+
+    logger.info(`데이터랩 분석 | 그룹 수: ${requestBody.keywordGroups.length}`);
+
+    try {
+        const response = await axios.post(api_url, requestBody, {
+            headers: {
+                "X-Naver-Client-Id": client_id,
+                "X-Naver-Client-Secret": client_secret,
                 "Content-Type": "application/json"
             }
-        }
-    );
+        });
 
-    logger.info(`getTrend res :: ${response.data}`);
-    res.json(response.data);
+        logger.info(`✅ 데이터랩 분석 성공 | 결과: ${response.data.results?.length || 0}개 그룹`);
+        res.json(response.data);
+    } catch (error) {
+        logger.error(`❌ 데이터랩 API 오류 | ${error.response?.data?.errorMessage || error.message}`);
+        res.status(error.response?.status || 500).json({
+            error: true,
+            message: error.response?.data?.errorMessage || '데이터 분석 중 오류가 발생했습니다.'
+        });
+    }
 };
 
 
