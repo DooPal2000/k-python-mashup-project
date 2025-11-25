@@ -14,18 +14,18 @@
             
             <!-- 타이틀 개선 -->
             <h1 class="display-4 fw-bold text-secondary mb-3">
-                트렌디스
+                Trendis
             </h1>
             
             <!-- 서브타이틀 개선 -->
-            <p class="lead text-muted mb-4">
+            <!-- <p class="lead text-muted mb-4">
                 <span class="fs-3 text-secondary">Trendis</span>
-            </p>
+            </p> -->
             
             <!-- 환영 메시지 개선 -->
             <p class="fs-5 text-secondary mb-5">
-                빠른 네이버 트렌드 분석을 위한<br>
-                <strong class="text-secondary">스마트한 솔루션</strong>
+                빠른 트렌드 분석을 위한<br>
+                <strong class="text-secondary">스마트한 툴</strong>
             </p>
             
             <!-- 버튼 그룹 개선 -->
@@ -36,9 +36,17 @@
                         로그인하기
                     </a>
                 <% } else if(currentUser.role=='user'){ %>
-                    <a href="/trend" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
+                    <a href="/trends/blog" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
                         <i class="fas fa-boxes me-2"></i>
-                        네이버 트렌드 검색
+                        블로그 트렌드 검색
+                    </a>
+                    <a href="/trends/local" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
+                        <i class="fas fa-boxes me-2"></i>
+                        지역 트렌드 검색
+                    </a>
+                    <a href="/trends/datalab" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
+                        <i class="fas fa-boxes me-2"></i>
+                        데이터랩 트렌드 검색
                     </a>
                 <% } else { %>
                     <a href="/admin" class="btn btn-danger btn-lg px-5 py-3 rounded-pill shadow">
