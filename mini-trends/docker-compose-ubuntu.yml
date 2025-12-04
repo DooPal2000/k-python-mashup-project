@@ -1,6 +1,6 @@
 services:
   app:
-    image: kyoungyeob/tiny-inventory-management-app:latest
+    image: kyoungyeob/trendis-app:latest
     ports:
       - "3000:3000"
     environment:

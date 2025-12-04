@@ -1,23 +1,29 @@
-# Node.js 18 버전을 기반 이미지로 사용
-FROM node:18
+# Node.js 22 기반 이미지
+FROM node:22
 
-# 컨테이너 내부의 작업 디렉토리 설정
+# Corepack 활성화 (Node 22는 기본 활성화되어 있지만 안전하게 명시)
+RUN corepack enable
+
+# pnpm 버전 고정 (선택)
+RUN corepack prepare pnpm@latest --activate
+
+# 작업 디렉토리 생성
 WORKDIR /usr/src/app
 
-# package.json과 package-lock.json을 컨테이너로 복사
-COPY package*.json ./
+# package.json과 pnpm-lock.yaml 복사
+COPY package.json pnpm-lock.yaml ./
 
-# 의존성 설치
-RUN npm install
+# 의존성 설치 (생산 환경)
+RUN pnpm install --frozen-lockfile
 
-# 나머지 소스 코드를 컨테이너로 복사
+# 나머지 코드 복사
 COPY . .
 
-# 3000번 포트 노출
+# 포트 노출
 EXPOSE 3000
 
-# 환경 변수 설정
+# 환경 변수
 ENV NODE_ENV=production
 
-# 컨테이너 실행 시 실행할 명령어
-CMD [ "npm", "run", "start" ]
+# 실행 명령
+CMD ["pnpm", "start"]
